@@ -2,7 +2,7 @@
 RewriteEngine On
 
 # Installation directory
-RewriteBase /testwork/
+RewriteBase /sites/testwork/
 
 # Protect hidden files from being viewed
 <Files .*>

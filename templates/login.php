@@ -2,7 +2,6 @@
 // No direct access to this file
 defined('BASE_URL') or die('Restricted access');
 ?>
-
       <form class="form-signin">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" class="input-block-level" placeholder="Email address">

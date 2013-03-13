@@ -45,8 +45,7 @@ defined('BASE_URL') or die('Restricted access');
             </div>
 
             <hr>
-
-            <?php $this->get_body()?>
+                <?php $this->get_body()?>
             <hr>
 
             <div class="footer">

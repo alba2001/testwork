@@ -1,19 +1,16 @@
 <?php
 // No direct access to this file
 defined('BASE_URL') or die('Restricted access');
-require_once CONTROLLERS_PATH.'controller.php';
+require_once CONTROLLERS_PATH.'login.php';
 
 /**
- * Login Controller
+ * Register Controller
  */
-class ControllersRegister extends ControllersController
+class ControllersRegister extends ControllersLogin
 {
-    private $_msg;
-    
     public function __construct() 
     {
         parent::__construct();
-        $this->stylesheets[] = FULL_URL.'assets/css/login.css';
         $this->scripts[] = FULL_URL.'assets/js/forms/register.js';
     }
     
@@ -30,8 +27,13 @@ class ControllersRegister extends ControllersController
      */
     public function register()
     {
-        var_dump($_POST);
-//        $this->display();
+        list($result, $msg) = $this->_model->save($_POST['iform']);
+        if(!$result)
+        {
+            $this->error_msg=$msg;
+            $this->display();
+        }
+        header( 'Location: '.FULL_URL);
     }
 }
 

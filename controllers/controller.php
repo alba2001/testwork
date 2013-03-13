@@ -14,12 +14,39 @@ class ControllersController
     protected $author = '';
     protected $top_navs = array();
     protected $project_name = 'Project name';
-    protected $body;
+    protected $_model;
+    /**
+     * Сообщение об ошибке
+     * @var html 
+     */
+    protected $error_msg = '';
     
     public function __construct() {
         $this->scripts = $this->get_scripts();
         $this->top_navs = $this->get_top_navs();
         $this->stylesheets = $this->get_stylesheets();
+        $this->_model = $this->get_model();
+    }
+
+    /**
+     * Возвращаем объект модели
+     * @param string $prefix
+     * @return object model
+     */
+    protected function get_model($prefix = '')
+    {
+        if(!$prefix)
+        {
+            preg_match("/^Controllers(\w+)$/", get_class($this), $regs);
+            $prefix = $regs[1];
+        }
+        else 
+        {
+            $prefix = ucfirst($prefix);
+        }
+        require_once MODELS_PATH.strtolower($prefix).'.php';
+        $model_class_name = 'Models'.$prefix;
+        return new $model_class_name;
     }
 
     /**
@@ -38,7 +65,7 @@ class ControllersController
         require_once TEMPLATES_PATH.'main.php';
     }
     /**
-     * Список стилей, загружаемых на главной странице
+     * Список java скриптов, загружаемых на главной странице
      * @return array
      */
     protected function get_scripts()
@@ -49,7 +76,7 @@ class ControllersController
         );
     }
     /**
-     * Список скриптов, загружаемых на главной странице
+     * Список стилей, загружаемых на главной странице
      * @return array
      */
     protected function get_stylesheets()
@@ -75,11 +102,6 @@ class ControllersController
             array(
                 'href'=>FULL_URL.'login',
                 'text'=>'Login',
-                'class'=>'',
-            ),
-            array(
-                'href'=>'#',
-                'text'=>'Contact',
                 'class'=>'',
             ),
         );

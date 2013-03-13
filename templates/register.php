@@ -1,8 +1,15 @@
 <?php
 // No direct access to this file
 defined('BASE_URL') or die('Restricted access');
+$alert_style = ' style="display:none"';
+if($this->error_msg)
+{
+    $alert_style = '';
+}
 ?>
-
+    <div class="alert alert-error" <?=$alert_style?>>
+        <?=$this->error_msg?>
+    </div>
       <form id="sign_up_form" class="form-signin control-group" method="post" action="<?=FULL_URL?>register/register">
         <h2 class="form-signin-heading">Please sign up</h2>
         <div class="control-group">
