@@ -27,13 +27,16 @@ class ControllersRegister extends ControllersLogin
      */
     public function register()
     {
-        list($result, $msg) = $this->_model->save($_POST['iform']);
+        list($result, $msg) = $this->_model->save();
         if(!$result)
         {
             $this->error_msg=$msg;
             $this->display();
         }
-        header( 'Location: '.FULL_URL);
+        else
+        {
+            header( 'Location: '.FULL_URL);
+        }
     }
 }
 

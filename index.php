@@ -1,12 +1,14 @@
 <?php
     // Инициируем константы
     define('DS',DIRECTORY_SEPARATOR);
-    define('BASE_URL', '/sites/testwork/');
+//    define('BASE_URL', '/sites/testwork/');
+    define('BASE_URL', '/testwork/');
     define('FULL_URL', 'http://'.$_SERVER['HTTP_HOST'].BASE_URL);
     define('BASE_PATH', dirname(__FILE__));
     define('TEMPLATES_PATH', BASE_PATH.DS.'templates'.DS);
     define('CONTROLLERS_PATH', BASE_PATH.DS.'controllers'.DS);
     define('MODELS_PATH', BASE_PATH.DS.'models'.DS);
+    define('LIBRARIES_PATH', BASE_PATH.DS.'libraries'.DS);
 
     // Находим контроллер
     $uri = explode('/',str_replace(BASE_URL, '', $_SERVER["REQUEST_URI"]));

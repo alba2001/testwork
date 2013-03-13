@@ -8,5 +8,8 @@ require_once MODELS_PATH.'model.php';
  */
 class ModelsLogin extends ModelsModel
 {
+    public function __construct() {
+        parent::__construct();
+    }
 }
 
