@@ -1,13 +1,8 @@
 <?php
-//$db = mysql_connect('localhost','testwork','12345678','testwork');
-//var_dump($db);exit;
-//var_dump(mysql_connect_errno($db));
-//var_dump(mysql_connect_error());exit;
-//phpinfo();exit;
     // Инициируем константы
     define('DS',DIRECTORY_SEPARATOR);
-    define('BASE_URL', '/sites/testwork/');
-//    define('BASE_URL', '/testwork/');
+//    define('BASE_URL', '/sites/testwork/');
+    define('BASE_URL', '/testwork/');
     define('FULL_URL', 'http://'.$_SERVER['HTTP_HOST'].BASE_URL);
     define('BASE_PATH', dirname(__FILE__));
     define('TEMPLATES_PATH', BASE_PATH.DS.'templates'.DS);
@@ -16,6 +11,10 @@
     define('LIBRARIES_PATH', BASE_PATH.DS.'libraries'.DS);
     define('LANGUAGES_PATH', BASE_PATH.DS.'languages'.DS);
     define('SALT', 'hNt5t_iny#46HTlk5k');
+    
+    // Инициируем переменные
+    IFactory::set_language('en-GB');
+    
     // Находим контроллер
     $uri = explode('/',str_replace(BASE_URL, '', $_SERVER["REQUEST_URI"]));
     switch ($uri[0]) {
@@ -50,4 +49,36 @@
     else 
     {
         $controller->display();
+    }
+
+    /**
+     * Класс лобальных настроек системы 
+     */
+    class IFactory{
+        
+        /**
+         * Язык интерфейса пользователя
+         * @var type 
+         */
+        private static $_language = 'en-GB';
+        
+        /**
+         * Определяем язык
+         * @return type 
+         */
+        public static function get_language()
+        {
+            return self::$_language;
+        }
+        
+        /**
+        *  Устанавливаем язык
+        * @param string $app - имя приложения
+        */
+        public static  function set_language($language)
+        {
+            self::$_language = $language;
+            
+        }
+        
     }

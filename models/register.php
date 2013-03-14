@@ -24,11 +24,17 @@ class ModelsRegister extends ModelsLogin
 
     public function __construct() {
         parent::__construct();
-        // Устанавливаем приложение в трансляторе
-        IText::set_app('register');
+        // Массив обязательных к заполнению полей
         $this->required = array('email', 'password1', 'password2');
+        // Массив полей, проверяемых на шаблон
         $this->shablon_fields = array(
             'email' =>'email', 'password1'=>'password', 'password2'=>'password'
+        );
+        // Массив полей с их именами
+        $this->name_fields = array(
+            'email' =>IText::_('EMAIL'),
+            'password1' =>IText::_('PASSWORD1'),
+            'password2' =>IText::_('PASSWORD2'),
         );
     }
 
@@ -84,7 +90,8 @@ class ModelsRegister extends ModelsLogin
         {
             if(in_array($key, $this->required) AND !$value)
             {
-                $msgs[] = 'Required field '.$key.' is empty';
+                $name = $this->name_fields[$key];
+                $msgs[] = IText::_('REQUIRED_FIELD_IS_EMPTY', $name);
                 $result = FALSE;
             }
         }
@@ -107,7 +114,8 @@ class ModelsRegister extends ModelsLogin
         {
             if(isset($fields[$key]) AND !preg_match($types[$fields[$key]],$value))
             {
-                $msgs[] = 'Field '.$key.' does not match the patern';
+                $name = $this->name_fields[$key];
+                $msgs[] = IText::_('FIELD_KEY_DOES_NOT_MATCH_THE_PATTERN', $name);
                 $result = FALSE;
             }
         }

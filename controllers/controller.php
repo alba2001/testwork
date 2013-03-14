@@ -5,7 +5,7 @@ defined('BASE_URL') or die('Restricted access');
 /**
  * Main Controller
  */
-class ControllersController
+abstract class ControllersController
 {
     protected $scripts = array();
     protected $stylesheets = array();
@@ -13,7 +13,7 @@ class ControllersController
     protected $description = '';
     protected $author = '';
     protected $top_navs = array();
-    protected $project_name = 'Project name';
+    protected $project_name;
     protected $_model;
     /**
      * Сообщение об ошибке
@@ -22,6 +22,7 @@ class ControllersController
     protected $error_msg = '';
     
     public function __construct() {
+        $this->project_name = IText::_('PROJECT_NAME');
         $this->scripts = $this->get_scripts();
         $this->top_navs = $this->get_top_navs();
         $this->stylesheets = $this->get_stylesheets();
@@ -52,10 +53,7 @@ class ControllersController
     /**
      *  Выводим тело страницы
      */
-    public function get_body()
-    {
-        require_once TEMPLATES_PATH.'body.php';
-    }
+    abstract public function get_body();
 
     /**
      * Показ страницы 
@@ -96,12 +94,12 @@ class ControllersController
         return array(
             array(
                 'href'=>FULL_URL,
-                'text'=>'Home',
+                'text'=>  IText::_('HOME'),
                 'class'=>'active',
             ),
             array(
                 'href'=>FULL_URL.'login',
-                'text'=>'Login',
+                'text'=>IText::_('LOGIN'),
                 'class'=>'',
             ),
         );

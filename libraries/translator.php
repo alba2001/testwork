@@ -8,35 +8,13 @@ defined('BASE_URL') or die('Restricted access');
 class LibrariesTranslator
 {
     /**
-     * Язык
-     * @var string
-     */
-    private $_language = 'en-GB';
-
-
-    /**
      * Приложение
      * @var string
      */
-    private $_app = '';
+    private $_app;
 
-
-    /**
-     * Устанавливаем приложение
-     * @param string $language
-     */
-    public function set_app($app)
-    {
+    public function __construct($app) {
         $this->_app = $app;
-    }
-
-    /**
-     * Устанавливаем язык
-     * @param string $language
-     */
-    public function set_language($language)
-    {
-        $this->_language = $language;
     }
 
     /**
@@ -47,7 +25,7 @@ class LibrariesTranslator
     private function _load()
     {
         $translatop = array();
-        $language = $this->_language;
+        $language = IFactory::get_language();
         $app = $this->_app;
         $file_name = LANGUAGES_PATH.$language.DS.$language.'_'.  $app.'.ini';
         if(file_exists($file_name))
@@ -86,23 +64,8 @@ class IText
      * Приложение
      * @var string
      */
-    protected static $_app = '';
+    private static $_app = '';
     
-    /**
-     * Язык
-     * @var string 
-     */
-    protected static $_language = 'en-GB';
-    
-
-    /**
-     *  Устанавливаем язык
-     * @param string $app - имя приложения
-     */
-    public static  function set_language($language)
-    {
-        self::$_language = $language;
-    }
 
     /**
      * Устанавливаем приложение
@@ -113,14 +76,23 @@ class IText
         self::$_app = $app;
     }
 
+    /**
+     * Врзвращаем переведенную строку
+     *  Если передано больше одного параметра, то то их подставляем как переменные
+     * @param type $string more then one
+     * @return type 
+     */
     public static function _($string)
     {
-        var_dump($string);
-        echo '<br/>';
-        var_dump(func_get_args());
-        $translator = new LibrariesTranslator(self::$_app, self::$_language);
-        $translator->set_app(self::$_app);
-        $translator->set_language(self::$_language);
-        return $translator->_($string);
+        $translator = new LibrariesTranslator(self::$_app);
+        $args = func_get_args();
+        $count = count($args);
+        $string = $translator->_($string);
+        if($count == 1)
+        {
+            return $string;
+        }
+        $args[0] = $string;
+        return call_user_func_array('sprintf', $args);
     }
 }

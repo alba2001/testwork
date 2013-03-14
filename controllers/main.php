@@ -8,5 +8,13 @@ require_once CONTROLLERS_PATH.'controller.php';
  */
 class ControllersMain extends ControllersController
 {
+    /**
+     *  Выводим тело страницы
+     */
+    public function get_body()
+    {
+        require_once TEMPLATES_PATH.'body.php';
+    }
+
 }
 
