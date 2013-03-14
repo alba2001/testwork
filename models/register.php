@@ -24,6 +24,8 @@ class ModelsRegister extends ModelsLogin
 
     public function __construct() {
         parent::__construct();
+        // Устанавливаем приложение в трансляторе
+        IText::set_app('register');
         $this->required = array('email', 'password1', 'password2');
         $this->shablon_fields = array(
             'email' =>'email', 'password1'=>'password', 'password2'=>'password'
@@ -52,9 +54,13 @@ class ModelsRegister extends ModelsLogin
         // Проверка совпадения паролей
         if($data['password1'] != $data['password2'])
         {
-            return array(0, 'Passwords do not match');
+            return array(0, IText::_('PASSWORD_DO_NOT_MATCH'));
         }
-        $query = "INSERT INTO `dostavim_veles`.`vel_testwork_users` (`email`, `password`) VALUES ('easd@fgh.id', '012345678');";
+        $word = md5(SALT.$data['password1']);
+        $email = $data['email'];
+        $query = "INSERT INTO `#__testwork_users`"
+                ." (`email`, `password`) "
+                ."VALUES ('$email', '$word');";
         $db = new LibrariesDatabaseInterface;
         if(!$db->query($query))
         {

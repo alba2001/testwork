@@ -8,9 +8,10 @@ defined('BASE_URL') or die('Restricted access');
 class LibrariesDatabaseInterface
 {
     private $_host = 'localhost';
-    private $_username = 'root';
-    private $_password = 'xspsxs123';
-    private $_dbname = ' dostavim_veles';
+    private $_username = 'testwork';
+    private $_password = '12345678';
+    private $_dbname = 'testwork';
+    private $_prefix = 'vel_';
     private $_db;
     public $error_query_execute = '';
 
@@ -45,10 +46,16 @@ class LibrariesDatabaseInterface
      */
     public function query($query)
     {
+        $query = str_replace('#__', $this->_prefix, $query);
+        if(!$query)
+        {
+            $this->error_query_execute = 'Wrong Query';
+            return FALSE;
+        }
         // Execute query
         if(!mysqli_query($this->_db,$query))
         {
-            $this->error_query_execute = mysqli_error();
+            $this->error_query_execute = mysqli_error($this->_db);
             return FALSE;
         }
         return TRUE;
@@ -61,6 +68,12 @@ class LibrariesDatabaseInterface
      */
     public function query_result($query)
     {
+        $query = str_replace('#_', $this->_prefix, $query);
+        if(!$query)
+        {
+            $this->error_query_execute = 'Wrong Query';
+            return FALSE;
+        }
         // Execute query
         $result = mysqli_query($this->_db,$query);
         if(!$result)
